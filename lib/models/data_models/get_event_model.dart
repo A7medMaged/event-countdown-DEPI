@@ -1,18 +1,16 @@
-class Event {
-  final int? id;
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class GetEventModel {
+  final String? id;
   final String title;
   final String description;
   final DateTime eventDate;
-  final Duration? reminderDuration;
-  final String userId;
 
-  Event({
+  GetEventModel({
     this.id,
     required this.title,
     required this.description,
     required this.eventDate,
-    required this.reminderDuration,
-    required this.userId,
   });
 
   Map<String, dynamic> toMap() {
@@ -21,26 +19,22 @@ class Event {
       'title': title,
       'description': description,
       'eventDate': eventDate.toIso8601String(),
-      'reminderDuration': reminderDuration?.inSeconds,
-      'userId': userId,
     };
   }
 
-  factory Event.fromMap(Map<String, dynamic> map) {
-    return Event(
+  factory GetEventModel.fromMap(Map<String, dynamic> map) {
+    return GetEventModel(
       id: map['id'],
       title: map['title'],
       description: map['description'],
-      eventDate: DateTime.parse(map['eventDate']),
-      userId: map['userId'],
-      reminderDuration:
-          map['reminderDuration'] != null
-              ? Duration(seconds: map['reminderDuration'])
-              : null,
+      eventDate:
+          map['eventDate'] is Timestamp
+              ? (map['eventDate'] as Timestamp).toDate()
+              : DateTime.parse(map['eventDate'].toString()),
     );
   }
 
-  Event copyWith({
+  GetEventModel copyWith({
     int? id,
     String? title,
     String? description,
@@ -48,14 +42,11 @@ class Event {
     Duration? reminderDuration,
     required String userId,
   }) {
-    return Event(
-      id: id ?? this.id,
+    return GetEventModel(
+      id: id?.toString(),
       title: title ?? this.title,
       description: description ?? this.description,
       eventDate: eventDate ?? this.eventDate,
-      reminderDuration: reminderDuration ?? this.reminderDuration,
-
-      userId: userId,
     );
   }
 }
