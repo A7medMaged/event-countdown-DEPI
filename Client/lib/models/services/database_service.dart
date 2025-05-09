@@ -28,6 +28,7 @@ CREATE TABLE events (
   title TEXT NOT NULL,
   description TEXT NOT NULL,
   eventDate TEXT NOT NULL,
+  reminderDuration INTEGER NOT NULL,
   userId TEXT NOT NULL
 )
 ''');
@@ -40,13 +41,23 @@ CREATE TABLE events (
 
   Future<List<Event>> getAllEvents(String userId) async {
     final db = await database;
-    final result = await db.query('events', where: 'userId = ?', whereArgs: [userId], orderBy: 'eventDate ASC');
+    final result = await db.query(
+      'events',
+      where: 'userId = ?',
+      whereArgs: [userId],
+      orderBy: 'eventDate ASC',
+    );
     return result.map((json) => Event.fromMap(json)).toList();
   }
 
   Future<int> updateEvent(Event event) async {
     final db = await database;
-    return await db.update('events', event.toMap(), where: 'id = ?', whereArgs: [event.id]);
+    return await db.update(
+      'events',
+      event.toMap(),
+      where: 'id = ?',
+      whereArgs: [event.id],
+    );
   }
 
   Future<int> deleteEvent(int id) async {

@@ -44,6 +44,7 @@ dependencies:
   permission_handler: ^12.0.0+1
   sqflite: ^2.4.2
   timezone: ^0.10.0
+  toastification: ^3.0.2
 
 dev_dependencies:
   flutter_lints: ^5.0.0

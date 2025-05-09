@@ -1,13 +1,15 @@
 import 'package:event_app/controllers/auth_cubit/auth_cubit.dart';
-import 'package:event_app/controllers/auth_cubit/auth_state.dart';
 import 'package:event_app/core/helpers/theming/colors.dart';
 import 'package:event_app/core/helpers/widgets/app_text_button.dart';
 import 'package:event_app/core/helpers/widgets/app_text_form_field.dart';
 import 'package:event_app/core/routing/routes.dart';
+import 'package:event_app/controllers/auth_cubit/auth_state.dart';
 import 'package:event_app/views/signup/widgets/back_to_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toastification/toastification.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -40,13 +42,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Center(
                     child: Text(
                       'Sign Up',
-                      style: TextStyle(fontSize: 36, color: secondColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 36,
+                        color: secondColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 32),
                   Text(
                     'We wish you a good day, please fill in the form to create an account',
-                    style: TextStyle(fontSize: 16, color: Colors.grey[600], fontWeight: FontWeight.w400),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                   const SizedBox(height: 32),
                   Form(
@@ -55,13 +65,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Name', style: TextStyle(fontSize: 24, color: secondColor, fontWeight: FontWeight.w400)),
+                        Text(
+                          'Name',
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: secondColor,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                         const SizedBox(height: 8),
                         AppTextFormField(
                           controller: nameController,
                           hintText: 'Enter your name',
                           keyboardType: TextInputType.name,
-                          prefixIcon: const Icon(Icons.person_outline, color: white),
+                          prefixIcon: const Icon(
+                            FontAwesomeIcons.user,
+                            color: white,
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your name';
@@ -70,13 +90,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
 
                         const SizedBox(height: 32),
-                        Text('E-mail', style: TextStyle(fontSize: 24, color: secondColor, fontWeight: FontWeight.w400)),
+                        Text(
+                          'E-mail',
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: secondColor,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                         const SizedBox(height: 8),
                         AppTextFormField(
                           controller: emailController,
                           keyboardType: TextInputType.emailAddress,
                           hintText: 'Enter your e-mail',
-                          prefixIcon: const Icon(Icons.alternate_email, color: white),
+                          prefixIcon: const Icon(
+                            FontAwesomeIcons.envelope,
+                            color: white,
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter a valid email';
@@ -86,7 +116,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(height: 32),
                         Text(
                           'Password',
-                          style: TextStyle(fontSize: 24, color: secondColor, fontWeight: FontWeight.w400),
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: secondColor,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         AppTextFormField(
@@ -101,13 +135,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               });
                             },
                             child: Icon(
-                              isObscureText1 ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                              size: 24,
+                              isObscureText1
+                                  ? FontAwesomeIcons.eyeSlash
+                                  : FontAwesomeIcons.eye,
                               color: white,
                             ),
                           ),
-                          prefixIcon: const Icon(Icons.lock_outline, color: white),
-
+                          prefixIcon: const Icon(
+                            FontAwesomeIcons.key,
+                            color: white,
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter a valid password';
@@ -117,7 +154,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(height: 32),
                         Text(
                           'Confirm Password',
-                          style: TextStyle(fontSize: 24, color: secondColor, fontWeight: FontWeight.w400),
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: secondColor,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         AppTextFormField(
@@ -132,12 +173,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               });
                             },
                             child: Icon(
-                              isObscureText2 ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                              size: 24,
+                              isObscureText2
+                                  ? FontAwesomeIcons.eyeSlash
+                                  : FontAwesomeIcons.eye,
                               color: white,
                             ),
                           ),
-                          prefixIcon: const Icon(Icons.lock_outline, color: white),
+                          prefixIcon: const Icon(
+                            FontAwesomeIcons.key,
+                            color: white,
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please re-enter your password';
@@ -152,16 +197,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             if (state is AuthSuccess) {
                               GoRouter.of(context).go(AppRoutes.loginScreen);
                             } else if (state is AuthFailure) {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+                              toastification.show(
+                                context: context,
+                                title: Text(state.error),
+                                type: ToastificationType.error,
+                                style: ToastificationStyle.flat,
+                                autoCloseDuration: const Duration(seconds: 5),
+                              );
                             }
                           },
                           builder: (context, state) {
                             if (state is AuthLoading) {
-                              return const Center(child: CircularProgressIndicator());
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
                             }
                             return AppTextButton(
                               buttonText: "Sign Up",
-                              textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: secondColor),
+                              textStyle: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: secondColor,
+                              ),
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
                                   context.read<AuthCubit>().register(
@@ -169,9 +226,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     password: passwordController.text.trim(),
                                     name: nameController.text.trim(),
                                   );
+                                  if (state is! AuthFailure) {
+                                    toastification.show(
+                                      context: context,
+                                      title: const Text('Success!'),
+                                      description: const Text(
+                                        'Account created successfully!',
+                                      ),
+                                      type: ToastificationType.success,
+                                      style: ToastificationStyle.minimal,
+                                      autoCloseDuration: const Duration(
+                                        seconds: 5,
+                                      ),
+                                    );
+                                  }
                                 } else {
                                   setState(() {
-                                    autovalidateMode = AutovalidateMode.onUserInteraction;
+                                    autovalidateMode =
+                                        AutovalidateMode.onUserInteraction;
                                   });
                                 }
                               },

@@ -1,15 +1,17 @@
 import 'package:event_app/controllers/auth_cubit/auth_cubit.dart';
+import 'package:event_app/controllers/auth_cubit/auth_state.dart';
 import 'package:event_app/core/helpers/theming/colors.dart';
 import 'package:event_app/core/helpers/widgets/app_text_button.dart';
 import 'package:event_app/core/helpers/widgets/app_text_form_field.dart';
 import 'package:event_app/core/routing/routes.dart';
-import 'package:event_app/controllers/auth_cubit/auth_state.dart';
 import 'package:event_app/views/login/widget/do_not_have_accont.dart';
 import 'package:event_app/views/login/widget/terms_condition.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toastification/toastification.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -64,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         hintText: 'Enter your e-mail',
                         keyboardType: TextInputType.emailAddress,
                         prefixIcon: const Icon(
-                          Icons.alternate_email,
+                          FontAwesomeIcons.envelope,
                           color: white,
                         ),
                         validator: (value) {
@@ -89,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         keyboardType: TextInputType.visiblePassword,
                         isObscureText: isObscureText,
                         prefixIcon: const Icon(
-                          Icons.lock_outline,
+                          FontAwesomeIcons.key,
                           color: white,
                         ),
                         suffixIcon: GestureDetector(
@@ -100,10 +102,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: Icon(
                             isObscureText
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                            size: 24,
-                            color: secondColor,
+                                ? FontAwesomeIcons.eyeSlash
+                                : FontAwesomeIcons.eye,
+                            color: white,
                           ),
                         ),
                         validator: (value) {
@@ -119,6 +120,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           onTap: () {
                             FirebaseAuth.instance.sendPasswordResetEmail(
                               email: _emailController.text.trim(),
+                            );
+                            toastification.show(
+                              // ignore: use_build_context_synchronously
+                              context: context,
+                              title: const Text('Warning!'),
+                              description: const Text(
+                                'Password reset email sent',
+                              ),
+                              type: ToastificationType.warning,
+                              style: ToastificationStyle.minimal,
+                              autoCloseDuration: const Duration(seconds: 5),
                             );
                           },
                           child: const Text(
@@ -137,10 +149,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (state is AuthSuccess) {
                             GoRouter.of(
                               context,
-                            ).pushReplacement(AppRoutes.homeview);
+                            ).pushReplacement(AppRoutes.eventView);
                           } else if (state is AuthFailure) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(state.error)),
+                            toastification.show(
+                              context: context,
+                              title: Text(state.error),
+                              type: ToastificationType.error,
+                              style: ToastificationStyle.minimal,
+                              autoCloseDuration: const Duration(seconds: 5),
                             );
                           }
                         },
@@ -187,6 +203,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                       errorMessage =
                                           'An unknown error occurred.';
                                   }
+                                  toastification.show(
+                                    context: context,
+                                    title: Text(errorMessage),
+                                    type: ToastificationType.info,
+                                    style: ToastificationStyle.minimal,
+                                    autoCloseDuration: const Duration(
+                                      seconds: 5,
+                                    ),
+                                  );
                                 } catch (e) {
                                   // ignore: avoid_print
                                   print(e.toString());
