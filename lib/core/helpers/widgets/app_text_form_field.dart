@@ -10,6 +10,7 @@ class AppTextFormField extends StatelessWidget {
   final String hintText;
   final bool? isObscureText;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
   final Color? backgroundColor;
   final TextEditingController? controller;
   final Function(String?) validator;
@@ -24,6 +25,7 @@ class AppTextFormField extends StatelessWidget {
     required this.hintText,
     this.isObscureText,
     this.suffixIcon,
+    this.prefixIcon,
     this.backgroundColor,
     this.controller,
     required this.validator,
@@ -37,21 +39,14 @@ class AppTextFormField extends StatelessWidget {
       keyboardType: keyboardType,
       decoration: InputDecoration(
         suffixIconColor: WidgetStateColor.resolveWith(
-          (states) =>
-              states.contains(WidgetState.focused) ? secondColor : lightGray,
+          (states) => states.contains(WidgetState.focused) ? secondColor : lightGray,
         ),
         isDense: true,
-        contentPadding:
-            contentPadding ??
-            EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        contentPadding: contentPadding ?? EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         focusedBorder:
             focusedBorder ??
             OutlineInputBorder(
-              borderSide: const BorderSide(
-                style: BorderStyle.solid,
-                color: secondColor,
-                width: 1.3,
-              ),
+              borderSide: const BorderSide(style: BorderStyle.solid, color: secondColor, width: 1.3),
               borderRadius: BorderRadius.circular(16.0),
             ),
         enabledBorder:
@@ -68,25 +63,16 @@ class AppTextFormField extends StatelessWidget {
           borderSide: const BorderSide(color: Colors.red, width: 1.3),
           borderRadius: BorderRadius.circular(16.0),
         ),
-        hintStyle:
-            hintStyle ??
-            TextStyle(
-              color: lightGray,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
+        hintStyle: hintStyle ?? TextStyle(color: lightGray, fontSize: 14, fontWeight: FontWeight.w400),
         hintText: hintText,
         suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
         // suffixIconColor: mainBlue,
         fillColor: backgroundColor ?? black,
         filled: true,
       ),
       obscureText: isObscureText ?? false,
-      style: TextStyle(
-        color: lightGray,
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-      ),
+      style: TextStyle(color: lightGray, fontSize: 14, fontWeight: FontWeight.w400),
       validator: (value) {
         return validator(value);
       },

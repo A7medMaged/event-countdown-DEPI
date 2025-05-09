@@ -1,4 +1,4 @@
-import 'package:event_app/controllers/auth_cubit/user_cubit.dart';
+import 'package:event_app/controllers/auth_cubit/auth_cubit.dart';
 import 'package:event_app/controllers/get_event_cubit/get_event_cubit.dart';
 import 'package:event_app/models/services/auth_service.dart';
 import 'package:event_app/core/routing/routes.dart';
