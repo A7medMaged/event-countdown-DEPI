@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "803439625157",
+    "project_id": "countdown-test-depi1",
+    "storage_bucket": "countdown-test-depi1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803439625157:android:f689cd0b5750eaab7281ac",
+        "android_client_info": {
+          "package_name": "com.example.events_dashboard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXUPNEIAFbI0eaWmC-tV_PNfVuVRpjSTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803439625157:android:c8b0d4ba8b778d007281ac",
+        "android_client_info": {
+          "package_name": "com.example.events_dashboard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXUPNEIAFbI0eaWmC-tV_PNfVuVRpjSTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
